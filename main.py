@@ -9,6 +9,8 @@ import sqlite3
 import pandas as pd 
 from PySide6.QtSql import QSqlDatabase, QSqlTableModel
 import re
+from datetime import date
+import matplotlib.pyplot as plt
 
 
 class Login(QWidget, Ui_login):
@@ -43,8 +45,9 @@ class Login(QWidget, Ui_login):
       self.users.conecta()
       autenticado = self.users.check_user(self.txt_user.text(), self.txt_senha.text())
       print(f"DEBUG: Resultado da autenticação: {autenticado}")
+     
       if autenticado.lower() in ["administrador", "user"]:
-          self.w = MainWindow(autenticado.lower())
+          self.w = MainWindow(self.txt_user.text(), autenticado.lower())
           self.w.show()
           self.close()
 
@@ -60,36 +63,45 @@ class Login(QWidget, Ui_login):
              self.users.close_connection()
              sys.exit(0)
 
-
-        
 class MainWindow(QMainWindow , Ui_MainWindow):
-    def __init__(self,user):
+    def __init__(self, username, user):
         super(MainWindow, self).__init__()
         self.setupUi(self)
         self.setWindowTitle("Sistema de gerenciamento")
 
-        if user.lower() == "user":
+        self.user = username
+        if user.lower() == "username":
             self.btn_pg_cadastro.setVisible(False)
 
-                # Botoes de navegação
-
+        # Botoes de navegação
         self.btn_home.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_home))
         self.btn_tableas.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_table))
         self.btn_pg_import.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_import))
         self.btn_contato.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_contato))
         self.btn_pg_cadastro.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_cadastro))
 
-
-        self.btn_cadastrar.clicked.connect(self.subscrible_user)
+        self.btn_cadastrar.clicked.connect(self.my_user)
 
         # Botoes de importação
         self.btn_opnen_xml.clicked.connect(self.open_path)
         self.btn_import.clicked.connect(self.import_xml_files)
 
+        # Filtro
+        self.txt_filtro.textChanged.connect(self.update_filter)
+
+        # Saída e estorno
+        self.btn_gerar_saida.clicked.connect(self.gerar_saida)
+        self.btn_extorno.clicked.connect(self.gerar_estorno)
+
+        # Gerar Excel
+        self.btn_excel.clicked.connect(self.excel_files)
+
+        # Gráfico
+        self.btn_chart.clicked.connect(self.graphic)
+
         self.reset_table()
 
-
-    def subscrible_user(self):
+    def my_user(self):
         if self.txt_senha.text() != self.txt_senha_2.text():
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Warning)
@@ -128,7 +140,7 @@ class MainWindow(QMainWindow , Ui_MainWindow):
                                                           | QFileDialog.DontResolveSymlinks)
         self.txt_file.setText(self.path)
    
-    def import_xml_files(self):
+    def import_xml_files(self): 
 
         xml = Read_xml(self.txt_file.text())
         all = xml.all_files()
@@ -143,9 +155,6 @@ class MainWindow(QMainWindow , Ui_MainWindow):
             fullDataSet = xml.nfe_data(i)
             db.insert_data(fullDataSet)
             cont += 1
-
-
-                #atualizar tabela
 
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Information)
@@ -178,8 +187,6 @@ class MainWindow(QMainWindow , Ui_MainWindow):
         for i in range(1,15):
             self.tw_estoque.resizeColumnToContents(i)
      
-            
-
     def table_saida(self):
         cn  =  sqlite3.connect('system.db')
         result = pd.read_sql_query("""SELECT Nfe, serie, data_importacao, data_saida, usuario
@@ -189,7 +196,7 @@ class MainWindow(QMainWindow , Ui_MainWindow):
         self.x = ""
 
         for i in result:
-            #faz o check para identificar a mesma nota e adicionar um nivel
+            
             if i[0] == self.x:
                 QTreeWidgetItem(self.campo, i)
             else:
@@ -203,7 +210,6 @@ class MainWindow(QMainWindow , Ui_MainWindow):
         for i in range(1,15):
             self.tabela_saida.resizeColumnToContents(i)
         
-
     def table_geral(self):
 
         
@@ -229,17 +235,113 @@ class MainWindow(QMainWindow , Ui_MainWindow):
         s = re.sub("[\W_]+", "", s)
         filter_str = 'Nfe LIKE "%{}%"'.format(s)
         self.model.setFilter(filter_str)
+
+    def gerar_saida(self):
+
+        self.checked_items_out = []
+
+        def recurse(parent_item):
+            for i in range(parent_item.childCount()):
+                child = parent_item.child(i)
+                grand_children = child.childCount()
+                if grand_children > 0:
+                    recurse(child)
+                if child.checkState(0) == QtCore.Qt.Checked:
+                    self.checked_items_out.append(child.text(0))
+    
+        recurse(self.tw_estoque.invisibleRootItem())
+
+        #Pergunta se usuario realmente deseja fazer isos.
+        self.question('saída')
+
+    def gerar_estorno(self):
         
-    def reset_table(self):
-        self.tw_estoque.clear()
-        self.tabela_saida.clear()
+        self.checked_items = []
 
-        self.table_saida()
-        self.table_estoque()
-        self.table_geral()
+        def recurse(parent_item):
+            for i in range(parent_item.childCount()):
+                child = parent_item.child(i)
+                grand_children = child.childCount()
+                if grand_children > 0:
+                    recurse(child)
+                if child.checkState(0) == QtCore.Qt.Checked:
+                    self.checked_items.append(child.text(0))
 
+        recurse(self.tabela_saida.invisibleRootItem())
+        self.question('estorno')      
 
+    def question(self, table):
 
+        msgBox = QMessageBox()
+
+        if table == 'estorno':
+            msgBox.setText("Deseja estornar as notas selecionadas?")
+            msgBox.setInformativeText("As selecionadas voltarão para o estoque \n clique em 'Yes' para confirmar.")
+            msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            msgBox.setDetailedText(f"Notas: {self.checked_items}")
+
+        else:
+            msgBox.setText("Deseja Gerar saída das nota selecionadas?")
+            msgBox.setInformativeText("As notas abaixo será baixada no estoque \n clique em 'Yes' para confirmar.")
+            msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            msgBox.setDetailedText(f"Notas: {self.checked_items_out}")
+
+        msgBox.setIcon(QMessageBox.Question)
+        ret = msgBox.exec()
+
+        if ret == QMessageBox.Yes:
+            if table == "estorno":
+                self.db = DataBase()
+                self.db.conecta()
+                self.db.update_estorno(self.checked_items)
+                self.db.close_connection()
+                self.reset_table()
+
+            else:
+                data_saida = date.today()
+                data_saida = data_saida.strftime('%d/%m/%Y')
+                self.db = DataBase()
+                self.db.conecta()
+                self.db.uptdate_estoque(data_saida, self.user, self.checked_items_out)
+                self.db.close_connection()
+                self.reset_table()
+
+    def excel_files(self):
+        file_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Salvar Relatório de Notas",
+            "",
+            "Arquivos Excel (*.xlsx)"
+        )
+
+        
+        if file_path:
+            cnx = sqlite3.connect('system.db')
+            result = pd.read_sql_query("SELECT * FROM Notas", cnx)
+            result.to_excel(file_path, sheet_name='Notas', index=False)
+
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("Relatório de Notas")
+            msg.setText("Relatório gerado com sucesso!")
+            msg.exec()
+
+    def graphic(self):
+
+        cnx = sqlite3.connect("system.db")
+        estoque = pd.read_sql_query('SELECT * FROM Notas', cnx)
+        saida = pd.read_sql_query("SELECT * FROM Notas WHERE data_saida != ''", cnx)
+
+        estoque = len(estoque)
+        saida = len(saida)
+
+        labels = "Estoque", "Saídas"
+        sizes = [estoque, saida]
+        fig1, axl = plt.subplots()
+        axl.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
+        axl.axis("equal")
+
+        plt.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
