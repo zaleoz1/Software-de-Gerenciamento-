@@ -83,6 +83,7 @@ class Ui_MainWindow(object):
         self.btn_pg_cadastro = QPushButton(self.frame)
         self.btn_pg_cadastro.setObjectName(u"btn_pg_cadastro")
         self.btn_pg_cadastro.setGeometry(QRect(782, 6, 131, 31))
+        self.btn_pg_cadastro.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_pg_cadastro.setStyleSheet(u"QPushButton{\n"
 "background-color: rgb(0, 170, 127);\n"
 "	color: rgb(255, 255, 255);\n"
@@ -117,12 +118,12 @@ class Ui_MainWindow(object):
         self.pg_home.setObjectName(u"pg_home")
         self.label = QLabel(self.pg_home)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(10, 20, 911, 115))
+        self.label.setGeometry(QRect(10, 10, 911, 141))
         self.label.setStyleSheet(u"")
         self.label_9 = QLabel(self.pg_home)
         self.label_9.setObjectName(u"label_9")
         self.label_9.setGeometry(QRect(270, 140, 391, 291))
-        self.label_9.setPixmap(QPixmap(u"logo/Design sem nome/6.png"))
+        self.label_9.setPixmap(QPixmap(u"../Software De Gerenciamento/logo/Design sem nome/6.png"))
         self.label_9.setScaledContents(True)
         self.pages.addWidget(self.pg_home)
         self.pg_table = QWidget()
@@ -161,15 +162,15 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.tw_saida = QLabel(self.tables)
-        self.tw_saida.setObjectName(u"tw_saida")
+        self.label_6 = QLabel(self.tables)
+        self.label_6.setObjectName(u"label_6")
 
-        self.verticalLayout_5.addWidget(self.tw_saida)
+        self.verticalLayout_5.addWidget(self.label_6)
 
-        self.treeWidget_2 = QTreeWidget(self.tables)
-        self.treeWidget_2.setObjectName(u"treeWidget_2")
+        self.tabela_saida = QTreeWidget(self.tables)
+        self.tabela_saida.setObjectName(u"tabela_saida")
 
-        self.verticalLayout_5.addWidget(self.treeWidget_2)
+        self.verticalLayout_5.addWidget(self.tabela_saida)
 
 
         self.verticalLayout_6.addLayout(self.verticalLayout_5)
@@ -186,6 +187,7 @@ class Ui_MainWindow(object):
         self.btn_gerar_saida = QPushButton(self.frame_2)
         self.btn_gerar_saida.setObjectName(u"btn_gerar_saida")
         self.btn_gerar_saida.setMinimumSize(QSize(100, 27))
+        self.btn_gerar_saida.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_gerar_saida.setStyleSheet(u"QPushButton{\n"
 "background-color: rgb(0, 170, 127);\n"
 "	color: rgb(255, 255, 255);\n"
@@ -202,6 +204,7 @@ class Ui_MainWindow(object):
         self.btn_extorno = QPushButton(self.frame_2)
         self.btn_extorno.setObjectName(u"btn_extorno")
         self.btn_extorno.setMinimumSize(QSize(100, 27))
+        self.btn_extorno.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_extorno.setStyleSheet(u"QPushButton{\n"
 "background-color: rgb(0, 170, 127);\n"
 "	color: rgb(255, 255, 255);\n"
@@ -236,9 +239,9 @@ class Ui_MainWindow(object):
         self.txt_filtro.setFont(font2)
         self.txt_filtro.setStyleSheet(u"color: rgb(0, 0, 0);")
         self.txt_filtro.setAlignment(Qt.AlignCenter)
-        self.tableView = QTableView(self.tab_2)
-        self.tableView.setObjectName(u"tableView")
-        self.tableView.setGeometry(QRect(10, 130, 911, 321))
+        self.tw_geral = QTableView(self.tab_2)
+        self.tw_geral.setObjectName(u"tw_geral")
+        self.tw_geral.setGeometry(QRect(10, 130, 911, 321))
         self.btn_excel = QPushButton(self.tab_2)
         self.btn_excel.setObjectName(u"btn_excel")
         self.btn_excel.setGeometry(QRect(470, 60, 451, 28))
@@ -346,6 +349,7 @@ class Ui_MainWindow(object):
         self.btn_cadastrar = QPushButton(self.frame_4)
         self.btn_cadastrar.setObjectName(u"btn_cadastrar")
         self.btn_cadastrar.setGeometry(QRect(70, 360, 281, 31))
+        self.btn_cadastrar.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_cadastrar.setStyleSheet(u"QPushButton{\n"
 "background-color: rgb(0, 170, 127);\n"
 "	color: rgb(255, 255, 255);\n"
@@ -361,6 +365,7 @@ class Ui_MainWindow(object):
         self.cb_perfil.addItem("")
         self.cb_perfil.setObjectName(u"cb_perfil")
         self.cb_perfil.setGeometry(QRect(70, 310, 281, 21))
+        self.cb_perfil.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.cb_perfil.setStyleSheet(u"    border-radius: 10px;\n"
 "background-color: rgb(0, 170, 127);\n"
 "	color: rgb(255, 255, 255);\n"
@@ -380,32 +385,32 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "")
-        self.btn_visualizar.setPixmap(QPixmap(u"Icones/visualzar.png"))
+        self.btn_visualizar.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/visualzar.png"))
         self.btn_visualizar.setScaledContents(True)
         self.label_5 = QLabel(self.frame_4)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setGeometry(QRect(29, 88, 41, 21))
-        self.label_5.setPixmap(QPixmap(u"Icones/user.png"))
+        self.label_5.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/user.png"))
         self.label_5.setScaledContents(True)
         self.label_15 = QLabel(self.frame_4)
         self.label_15.setObjectName(u"label_15")
         self.label_15.setGeometry(QRect(29, 147, 41, 21))
-        self.label_15.setPixmap(QPixmap(u"Icones/user.png"))
+        self.label_15.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/user.png"))
         self.label_15.setScaledContents(True)
         self.label_7 = QLabel(self.frame_4)
         self.label_7.setObjectName(u"label_7")
         self.label_7.setGeometry(QRect(29, 207, 41, 21))
-        self.label_7.setPixmap(QPixmap(u"Icones/senha.png"))
+        self.label_7.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/senha.png"))
         self.label_7.setScaledContents(True)
         self.label_8 = QLabel(self.frame_4)
         self.label_8.setObjectName(u"label_8")
         self.label_8.setGeometry(QRect(29, 260, 41, 21))
-        self.label_8.setPixmap(QPixmap(u"Icones/senha.png"))
+        self.label_8.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/senha.png"))
         self.label_8.setScaledContents(True)
         self.label_16 = QLabel(self.frame_4)
         self.label_16.setObjectName(u"label_16")
         self.label_16.setGeometry(QRect(29, 310, 41, 21))
-        self.label_16.setPixmap(QPixmap(u"Icones/user.png"))
+        self.label_16.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/user.png"))
         self.label_16.setScaledContents(True)
         self.label_4 = QLabel(self.frame_4)
         self.label_4.setObjectName(u"label_4")
@@ -417,7 +422,7 @@ class Ui_MainWindow(object):
         self.label_2 = QLabel(self.pg_cadastro)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(10, 0, 401, 421))
-        self.label_2.setPixmap(QPixmap(u"logo/Design sem nome/2.png"))
+        self.label_2.setPixmap(QPixmap(u"../Software De Gerenciamento/logo/Design sem nome/2.png"))
         self.label_2.setScaledContents(True)
         self.pages.addWidget(self.pg_cadastro)
         self.pg_contato = QWidget()
@@ -425,6 +430,7 @@ class Ui_MainWindow(object):
         self.btn_cuser_enviar = QPushButton(self.pg_contato)
         self.btn_cuser_enviar.setObjectName(u"btn_cuser_enviar")
         self.btn_cuser_enviar.setGeometry(QRect(540, 410, 271, 31))
+        self.btn_cuser_enviar.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_cuser_enviar.setStyleSheet(u"QPushButton{\n"
 "background-color: rgb(0, 170, 127);\n"
 "	color: rgb(255, 255, 255);\n"
@@ -495,7 +501,7 @@ class Ui_MainWindow(object):
         self.label_24 = QLabel(self.pg_contato)
         self.label_24.setObjectName(u"label_24")
         self.label_24.setGeometry(QRect(60, 40, 421, 441))
-        self.label_24.setPixmap(QPixmap(u"logo/Design sem nome/4.png"))
+        self.label_24.setPixmap(QPixmap(u"../Software De Gerenciamento/logo/Design sem nome/4.png"))
         self.label_24.setScaledContents(True)
         self.pages.addWidget(self.pg_contato)
         self.pg_import = QWidget()
@@ -522,6 +528,7 @@ class Ui_MainWindow(object):
         self.btn_opnen_xml = QPushButton(self.frame_5)
         self.btn_opnen_xml.setObjectName(u"btn_opnen_xml")
         self.btn_opnen_xml.setGeometry(QRect(260, 90, 51, 31))
+        self.btn_opnen_xml.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_opnen_xml.setStyleSheet(u"QPushButton{\n"
 "background-color: rgb(0, 170, 127);\n"
 "	color: rgb(255, 255, 255);\n"
@@ -551,6 +558,7 @@ class Ui_MainWindow(object):
         self.btn_import = QPushButton(self.frame_5)
         self.btn_import.setObjectName(u"btn_import")
         self.btn_import.setGeometry(QRect(40, 320, 271, 31))
+        self.btn_import.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_import.setStyleSheet(u"QPushButton{\n"
 "background-color: rgb(0, 170, 127);\n"
 "	color: rgb(255, 255, 255);\n"
@@ -569,19 +577,19 @@ class Ui_MainWindow(object):
         self.label_17 = QLabel(self.frame_5)
         self.label_17.setObjectName(u"label_17")
         self.label_17.setGeometry(QRect(100, 170, 161, 131))
-        self.label_17.setPixmap(QPixmap(u"logo/Design sem nome/3.png"))
+        self.label_17.setPixmap(QPixmap(u"../Software De Gerenciamento/logo/Design sem nome/3.png"))
         self.label_17.setScaledContents(True)
         self.label_18 = QLabel(self.pg_import)
         self.label_18.setObjectName(u"label_18")
         self.label_18.setGeometry(QRect(60, 50, 351, 341))
-        self.label_18.setPixmap(QPixmap(u"logo/Design sem nome/1.png"))
+        self.label_18.setPixmap(QPixmap(u"../Software De Gerenciamento/logo/Design sem nome/1.png"))
         self.label_18.setScaledContents(True)
         self.pages.addWidget(self.pg_import)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
 
-        self.pages.setCurrentIndex(0)
+        self.pages.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(0)
 
 
@@ -612,8 +620,8 @@ class Ui_MainWindow(object):
         ___qtreewidgetitem.setText(2, QCoreApplication.translate("MainWindow", u"Cliente", None));
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("MainWindow", u"Serie", None));
         ___qtreewidgetitem.setText(0, QCoreApplication.translate("MainWindow", u"Nfe", None));
-        self.tw_saida.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\">SA\u00cdDA</p></body></html>", None))
-        ___qtreewidgetitem1 = self.treeWidget_2.headerItem()
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\">SA\u00cdDA</p></body></html>", None))
+        ___qtreewidgetitem1 = self.tabela_saida.headerItem()
         ___qtreewidgetitem1.setText(4, QCoreApplication.translate("MainWindow", u"DATA SA\u00cdDA", None));
         ___qtreewidgetitem1.setText(3, QCoreApplication.translate("MainWindow", u"US\u00daARIO", None));
         ___qtreewidgetitem1.setText(2, QCoreApplication.translate("MainWindow", u"DATA IMPORTA\u00c7\u00c3O", None));
