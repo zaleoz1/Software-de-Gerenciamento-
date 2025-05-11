@@ -82,7 +82,7 @@ class Ui_MainWindow(object):
 "}")
         self.btn_pg_cadastro = QPushButton(self.frame)
         self.btn_pg_cadastro.setObjectName(u"btn_pg_cadastro")
-        self.btn_pg_cadastro.setGeometry(QRect(782, 6, 131, 31))
+        self.btn_pg_cadastro.setGeometry(QRect(712, 7, 131, 31))
         self.btn_pg_cadastro.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_pg_cadastro.setStyleSheet(u"QPushButton{\n"
 "background-color: rgb(0, 170, 127);\n"
@@ -108,6 +108,20 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    background-color: rgb(0, 150, 110); /* Cor mais escura ao passar o mouse */\n"
 "}")
+        self.btn_login = QPushButton(self.frame)
+        self.btn_login.setObjectName(u"btn_login")
+        self.btn_login.setGeometry(QRect(853, 7, 61, 31))
+        self.btn_login.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.btn_login.setStyleSheet(u"QPushButton{\n"
+"background-color: rgb(0, 170, 127);\n"
+"	color: rgb(255, 255, 255);\n"
+"	border-radius: 10px;\n"
+"\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(0, 150, 110); /* Cor mais escura ao passar o mouse */\n"
+"}")
         self.pages = QStackedWidget(self.centralwidget)
         self.pages.setObjectName(u"pages")
         self.pages.setGeometry(QRect(0, 60, 951, 491))
@@ -118,12 +132,12 @@ class Ui_MainWindow(object):
         self.pg_home.setObjectName(u"pg_home")
         self.label = QLabel(self.pg_home)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(10, 10, 911, 141))
+        self.label.setGeometry(QRect(20, -20, 911, 141))
         self.label.setStyleSheet(u"")
         self.label_9 = QLabel(self.pg_home)
         self.label_9.setObjectName(u"label_9")
         self.label_9.setGeometry(QRect(270, 140, 391, 291))
-        self.label_9.setPixmap(QPixmap(u"../Software De Gerenciamento/logo/Design sem nome/6.png"))
+        self.label_9.setPixmap(QPixmap(u"logo/Design sem nome/6.png"))
         self.label_9.setScaledContents(True)
         self.pages.addWidget(self.pg_home)
         self.pg_table = QWidget()
@@ -217,6 +231,24 @@ class Ui_MainWindow(object):
 "}")
 
         self.verticalLayout_3.addWidget(self.btn_extorno)
+
+        self.btn_delete = QPushButton(self.frame_2)
+        self.btn_delete.setObjectName(u"btn_delete")
+        self.btn_delete.setMinimumSize(QSize(100, 27))
+        self.btn_delete.setFont(font)
+        self.btn_delete.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.btn_delete.setStyleSheet(u"QPushButton{\n"
+"background-color: rgb(0, 170, 127);\n"
+"	color: rgb(255, 255, 255);\n"
+"	border-radius: 10px;\n"
+"\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(0, 150, 110); /* Cor mais escura ao passar o mouse */\n"
+"}")
+
+        self.verticalLayout_3.addWidget(self.btn_delete)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -385,32 +417,32 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "")
-        self.btn_visualizar.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/visualzar.png"))
+        self.btn_visualizar.setPixmap(QPixmap(u"Icones/visualzar.png"))
         self.btn_visualizar.setScaledContents(True)
         self.label_5 = QLabel(self.frame_4)
         self.label_5.setObjectName(u"label_5")
-        self.label_5.setGeometry(QRect(29, 88, 41, 21))
-        self.label_5.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/user.png"))
+        self.label_5.setGeometry(QRect(39, 88, 31, 21))
+        self.label_5.setPixmap(QPixmap(u"Icones/user.png"))
         self.label_5.setScaledContents(True)
         self.label_15 = QLabel(self.frame_4)
         self.label_15.setObjectName(u"label_15")
-        self.label_15.setGeometry(QRect(29, 147, 41, 21))
-        self.label_15.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/user.png"))
+        self.label_15.setGeometry(QRect(39, 147, 31, 21))
+        self.label_15.setPixmap(QPixmap(u"Icones/user.png"))
         self.label_15.setScaledContents(True)
         self.label_7 = QLabel(self.frame_4)
         self.label_7.setObjectName(u"label_7")
-        self.label_7.setGeometry(QRect(29, 207, 41, 21))
-        self.label_7.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/senha.png"))
+        self.label_7.setGeometry(QRect(39, 207, 31, 21))
+        self.label_7.setPixmap(QPixmap(u"Icones/senha.png"))
         self.label_7.setScaledContents(True)
         self.label_8 = QLabel(self.frame_4)
         self.label_8.setObjectName(u"label_8")
-        self.label_8.setGeometry(QRect(29, 260, 41, 21))
-        self.label_8.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/senha.png"))
+        self.label_8.setGeometry(QRect(39, 260, 31, 21))
+        self.label_8.setPixmap(QPixmap(u"Icones/senha.png"))
         self.label_8.setScaledContents(True)
         self.label_16 = QLabel(self.frame_4)
         self.label_16.setObjectName(u"label_16")
-        self.label_16.setGeometry(QRect(29, 310, 41, 21))
-        self.label_16.setPixmap(QPixmap(u"../Software De Gerenciamento/Icones/user.png"))
+        self.label_16.setGeometry(QRect(39, 310, 31, 21))
+        self.label_16.setPixmap(QPixmap(u"Icones/user.png"))
         self.label_16.setScaledContents(True)
         self.label_4 = QLabel(self.frame_4)
         self.label_4.setObjectName(u"label_4")
@@ -422,7 +454,7 @@ class Ui_MainWindow(object):
         self.label_2 = QLabel(self.pg_cadastro)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(10, 0, 401, 421))
-        self.label_2.setPixmap(QPixmap(u"../Software De Gerenciamento/logo/Design sem nome/2.png"))
+        self.label_2.setPixmap(QPixmap(u"logo/Design sem nome/2.png"))
         self.label_2.setScaledContents(True)
         self.pages.addWidget(self.pg_cadastro)
         self.pg_contato = QWidget()
@@ -501,7 +533,7 @@ class Ui_MainWindow(object):
         self.label_24 = QLabel(self.pg_contato)
         self.label_24.setObjectName(u"label_24")
         self.label_24.setGeometry(QRect(60, 40, 421, 441))
-        self.label_24.setPixmap(QPixmap(u"../Software De Gerenciamento/logo/Design sem nome/4.png"))
+        self.label_24.setPixmap(QPixmap(u"logo/Design sem nome/4.png"))
         self.label_24.setScaledContents(True)
         self.pages.addWidget(self.pg_contato)
         self.pg_import = QWidget()
@@ -577,12 +609,12 @@ class Ui_MainWindow(object):
         self.label_17 = QLabel(self.frame_5)
         self.label_17.setObjectName(u"label_17")
         self.label_17.setGeometry(QRect(100, 170, 161, 131))
-        self.label_17.setPixmap(QPixmap(u"../Software De Gerenciamento/logo/Design sem nome/3.png"))
+        self.label_17.setPixmap(QPixmap(u"logo/Design sem nome/3.png"))
         self.label_17.setScaledContents(True)
         self.label_18 = QLabel(self.pg_import)
         self.label_18.setObjectName(u"label_18")
         self.label_18.setGeometry(QRect(60, 50, 351, 341))
-        self.label_18.setPixmap(QPixmap(u"../Software De Gerenciamento/logo/Design sem nome/1.png"))
+        self.label_18.setPixmap(QPixmap(u"logo/Design sem nome/1.png"))
         self.label_18.setScaledContents(True)
         self.pages.addWidget(self.pg_import)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -601,8 +633,9 @@ class Ui_MainWindow(object):
         self.btn_home.setText(QCoreApplication.translate("MainWindow", u"HOME", None))
         self.btn_pg_import.setText(QCoreApplication.translate("MainWindow", u"IMPORTAR", None))
         self.btn_tableas.setText(QCoreApplication.translate("MainWindow", u"TABELAS", None))
-        self.btn_pg_cadastro.setText(QCoreApplication.translate("MainWindow", u"Cadastrar Us\u00faario", None))
+        self.btn_pg_cadastro.setText(QCoreApplication.translate("MainWindow", u"CADASTRAR USU\u00c1RIO", None))
         self.btn_contato.setText(QCoreApplication.translate("MainWindow", u"CONTATO", None))
+        self.btn_login.setText(QCoreApplication.translate("MainWindow", u"LOGOUT", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:36pt; font-weight:600;\">Kontrolla</span></p><p align=\"center\"><span style=\" font-size:28pt;\">Sistema de gerenciamento</span></p></body></html>", None))
         self.label_9.setText("")
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\">ESTOQUE</p></body></html>", None))
@@ -629,6 +662,7 @@ class Ui_MainWindow(object):
         ___qtreewidgetitem1.setText(0, QCoreApplication.translate("MainWindow", u"Nfe", None));
         self.btn_gerar_saida.setText(QCoreApplication.translate("MainWindow", u"Gerar saida", None))
         self.btn_extorno.setText(QCoreApplication.translate("MainWindow", u"Extorno", None))
+        self.btn_delete.setText(QCoreApplication.translate("MainWindow", u"Excluir", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tables), QCoreApplication.translate("MainWindow", u"Base", None))
         self.txt_filtro.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Filtro", None))
         self.btn_excel.setText(QCoreApplication.translate("MainWindow", u"Gerar Excel", None))

@@ -20,16 +20,30 @@ class Login(QWidget, Ui_login):
         self.setupUi(self)
         self.setWindowTitle("Login")
         self.senha_visivel = False 
+
+        # Conexões de botões
         self.btn_login.clicked.connect(self.checkLogin)
-        self.btn_visualizar.mousePressEvent = self.toggle_password_visibility  
+        self.btn_visualizar.mousePressEvent = self.toggle_password_visibility
+        self.btn_esqueceu_senha.mousePressEvent = self.go_to_recover_password 
+        self.btn_ct_voltar.mousePressEvent = self.go_to_login_page
 
     def toggle_password_visibility(self, event):
         if self.senha_visivel:
             self.txt_senha.setEchoMode(QLineEdit.Password)  
+            self.txt_senha.setEchoMode(QLineEdit.Password)
             self.senha_visivel = False
         else:
             self.txt_senha.setEchoMode(QLineEdit.Normal)  
+            self.txt_senha.setEchoMode(QLineEdit.Normal)
             self.senha_visivel = True
+
+    def go_to_recover_password(self, event):
+        """Muda para a página de recuperação de senha."""
+        self.pagesloguin.setCurrentWidget(self.pagina_rsenha)
+
+    def go_to_login_page(self, event):
+        """Volta para a página de login."""
+        self.pagesloguin.setCurrentWidget(self.pagina_login)
 
     def open_system(self):
         if self.txt_senha.text() == "123":
@@ -41,27 +55,31 @@ class Login(QWidget, Ui_login):
             print("Senha incorreta")
 
     def checkLogin(self):
-      self.users = DataBase()
-      self.users.conecta()
-      autenticado = self.users.check_user(self.txt_user.text(), self.txt_senha.text())
-      print(f"DEBUG: Resultado da autenticação: {autenticado}")
-     
-      if autenticado.lower() in ["administrador", "user"]:
-          self.w = MainWindow(self.txt_user.text(), autenticado.lower())
-          self.w.show()
-          self.close()
+        self.users = DataBase()
+        self.users.conecta()
+        autenticado = self.users.check_user(self.txt_user.text(), self.txt_senha.text())
+        print(f"DEBUG: Resultado da autenticação: {autenticado}")
+        
+        if autenticado.lower() in ["administrador", "user"]:
+            self.w = MainWindow(self.txt_user.text(), autenticado.lower())
+            self.w.show()
+            self.w.btn_login.clicked.connect(self.return_to_login)  
+            self.close()
+        else:
+            if self.tentativas < 3:
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Warning)
+                msg.setWindowTitle("Acesso negado")
+                msg.setText(f"Usuário ou senha incorretos! \n \n Tentativa: {self.tentativas + 1} de 3")
+                msg.exec()
+                self.tentativas += 1
+            if self.tentativas == 3:
+                self.users.close_connection()
+                sys.exit(0)
 
-      else:
-          if self.tentativas < 3:
-              msg = QMessageBox()
-              msg.setIcon(QMessageBox.Warning)
-              msg.setWindowTitle("Acesso negado")
-              msg.setText(f"Usuário ou senha incorretos! \n \n Tentativa: {self.tentativas + 1} de 3")
-              msg.exec()
-              self.tentativas += 1
-          if self.tentativas == 3:
-             self.users.close_connection()
-             sys.exit(0)
+    def return_to_login(self):
+        self.w.close()
+        self.show()
 
 class MainWindow(QMainWindow , Ui_MainWindow):
     def __init__(self, username, user):
@@ -70,7 +88,7 @@ class MainWindow(QMainWindow , Ui_MainWindow):
         self.setWindowTitle("Sistema de gerenciamento")
 
         self.user = username
-        if user.lower() == "username":
+        if user.lower() == "user":
             self.btn_pg_cadastro.setVisible(False)
 
         # Botoes de navegação
@@ -99,6 +117,9 @@ class MainWindow(QMainWindow , Ui_MainWindow):
         # Gráfico
         self.btn_chart.clicked.connect(self.graphic)
 
+        # Deletar itens selecionados
+        self.btn_delete.clicked.connect(self.delete_selected_items)
+
         self.reset_table()
 
     def my_user(self):
@@ -117,7 +138,7 @@ class MainWindow(QMainWindow , Ui_MainWindow):
 
         db = DataBase()
         db.conecta()
-        db.create_table_users()  # Garante que a tabela 'users' será criada
+        db.create_table_users()  
         db.insert_user(nome, user, password, access)
         db.close_connection()
 
@@ -140,8 +161,7 @@ class MainWindow(QMainWindow , Ui_MainWindow):
                                                           | QFileDialog.DontResolveSymlinks)
         self.txt_file.setText(self.path)
    
-    def import_xml_files(self): 
-
+    def import_xml_files(self):
         xml = Read_xml(self.txt_file.text())
         all = xml.all_files()
         self.progressBar.setMaximum(len(all))
@@ -156,12 +176,16 @@ class MainWindow(QMainWindow , Ui_MainWindow):
             db.insert_data(fullDataSet)
             cont += 1
 
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Information)
-            msg.setWindowTitle("Importação de XML")
-            msg.setText("Arquivos importados com sucesso!")
-            msg.exec()
-            self.progressBar.setValue(0)
+        db.close_connection()
+
+        self.reset_table()
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowTitle("Importação de XML")
+        msg.setText("Todos os arquivos foram importados com sucesso!")
+        msg.exec()
+        self.progressBar.setValue(0)
 
     def table_estoque(self):
 
@@ -173,7 +197,6 @@ class MainWindow(QMainWindow , Ui_MainWindow):
         self.x = ""
 
         for i in result:
-            #faz o check para identificar a mesma nota e adicionar um nivel
             if i[0] == self.x:
                 QTreeWidgetItem(self.campo, i)
             else:
@@ -251,7 +274,6 @@ class MainWindow(QMainWindow , Ui_MainWindow):
     
         recurse(self.tw_estoque.invisibleRootItem())
 
-        #Pergunta se usuario realmente deseja fazer isos.
         self.question('saída')
 
     def gerar_estorno(self):
@@ -307,6 +329,7 @@ class MainWindow(QMainWindow , Ui_MainWindow):
                 self.reset_table()
 
     def excel_files(self):
+        
         file_path, _ = QFileDialog.getSaveFileName(
             self,
             "Salvar Relatório de Notas",
@@ -342,6 +365,55 @@ class MainWindow(QMainWindow , Ui_MainWindow):
         axl.axis("equal")
 
         plt.show()
+
+    def delete_selected_items(self):
+        self.checked_items_delete = []
+
+        def recurse(parent_item):
+            for i in range(parent_item.childCount()):
+                child = parent_item.child(i)
+                grand_children = child.childCount()
+                if grand_children > 0:
+                    recurse(child)
+                if child.checkState(0) == QtCore.Qt.Checked:
+                    self.checked_items_delete.append(child.text(0))
+
+        recurse(self.tw_estoque.invisibleRootItem())
+        recurse(self.tabela_saida.invisibleRootItem())
+
+        if not self.checked_items_delete:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("Nenhuma seleção")
+            msg.setText("Por favor, selecione itens para excluir.")
+            msg.exec()
+            return
+
+        msgBox = QMessageBox()
+        msgBox.setText("Deseja excluir as notas selecionadas?")
+        msgBox.setInformativeText("As notas abaixo serão removidas permanentemente.\nClique em 'Yes' para confirmar.")
+        msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msgBox.setDetailedText(f"Notas: {', '.join(self.checked_items_delete)}")
+        msgBox.setIcon(QMessageBox.Question)
+        ret = msgBox.exec()
+
+        if ret == QMessageBox.Yes:
+            self.db = DataBase()
+            self.db.conecta()
+
+            for nfe in self.checked_items_delete:
+                self.db.delete_item(nfe)
+
+            self.db.close_connection()
+
+            # Atualizar as tabelas
+            self.reset_table()
+
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("Itens excluídos")
+            msg.setText("Os itens selecionados foram excluídos com sucesso.")
+            msg.exec()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

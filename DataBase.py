@@ -134,6 +134,14 @@ class DataBase():
         except AttributeError:
             print('faça a conexão para alterar campos.')           
 
+    def delete_item(self, nfe):
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute("DELETE FROM Notas WHERE NFe = ?", (nfe,))
+            self.connection.commit()
+        except sqlite3.Error as e:
+            print(f"Erro ao excluir item: {e}")
+
 if __name__ == "__main__":
 
     db = DataBase()
